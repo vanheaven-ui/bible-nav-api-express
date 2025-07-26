@@ -2,15 +2,14 @@
 
 const { Pool } = require('pg'); // Import the Pool class from the pg library
 
+// Determine SSL configuration based on environment
+const isProduction = process.env.NODE_ENV === 'production';
+
 // Create a new Pool instance to manage database connections.
 // The connection string is retrieved from environment variables for security.
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, 
-    ssl: {
-        // Required for many cloud-hosted PostgreSQL databases (like Heroku, Render, ElephantSQL)
-        // Set to true to reject unauthorized certificates.
-        rejectUnauthorized: false
-    }
+    ssl: isProduction ? { rejectUnauthorized: false } : false
 });
 
 // Event listener for when the pool connects to the database
