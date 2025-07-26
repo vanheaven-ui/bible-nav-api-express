@@ -1,3 +1,4 @@
+// src/middleware/auth.js
 // This middleware is responsible for verifying JWT tokens and protecting routes.
 
 const jwt = require("jsonwebtoken");
@@ -15,6 +16,9 @@ const authenticateToken = (req, res, next) => {
   }
 
   // Verify the token using the JWT_SECRET from environment variables
+  // --- DEBUGGING LINE START ---
+  console.log("DEBUG: JWT_SECRET being used:", process.env.JWT_SECRET);
+  // --- DEBUGGING LINE END ---
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     // If verification fails (e.g., token is invalid or expired), return 403 Forbidden
     if (err) {
