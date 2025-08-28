@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors"); 
 const authRoutes = require("./routes/authRoutes"); 
 const verseRoutes = require("./routes/verseRoutes"); 
+const noteRoutes = require("./routes/noteRoutes");
 
 const app = express(); 
 
