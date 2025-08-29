@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors"); 
 const authRoutes = require("./routes/authRoutes"); 
 const verseRoutes = require("./routes/verseRoutes"); 
-const noteRoutes = require("./routes/noteRoutes");
+const noteRoutes = require("./routes/notesRoute");
 
 const app = express(); 
 
@@ -16,7 +16,7 @@ app.use("/api/verses", verseRoutes);
 
 app.use("/api/notes", noteRoutes);
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("Bible Nav API is running!");
 });
 

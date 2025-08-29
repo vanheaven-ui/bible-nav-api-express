@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const noteController = require("../controllers/noteController");
-const requireAuth = require("../middleware/requireAuth"); // Middleware that sets req.user
+const authenticateToken = require("../middleware/auth");
+const {
+  createNote,
+  getNotes,
+  deleteNote,
+} = require("../controllers/notesController");
 
-router.use(requireAuth);
-
-router.post("/", noteController.createNote);
-router.get("/", noteController.getNotes);
-router.delete("/:id", noteController.deleteNote);
+router.post("/", authenticateToken, createNote);
+router.get("/", authenticateToken, getNotes);
+router.delete("/:id", authenticateToken, deleteNote);
 
 module.exports = router;
