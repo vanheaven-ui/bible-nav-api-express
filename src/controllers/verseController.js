@@ -1,6 +1,4 @@
-// This file contains the logic for managing favorite bible verses.
-
-const pool = require("../db"); // Import the database connection pool
+const pool = require("../db"); 
 
 // Controller to add a favorite verse
 const addFavoriteVerse = async (req, res) => {
@@ -29,7 +27,6 @@ const addFavoriteVerse = async (req, res) => {
       verse: result.rows[0],
     });
   } catch (error) {
-    // Check for unique constraint violation (PostgreSQL error code 23505)
     if (error.code === "23505") {
       return res
         .status(409)
@@ -44,11 +41,9 @@ const addFavoriteVerse = async (req, res) => {
 
 // Controller to get all favorite verses for the authenticated user
 const getFavoriteVerses = async (req, res) => {
-  // Get user ID from the authenticated request
   const userId = req.user.userId;
 
   try {
-    // Retrieve all favorite verses associated with the user ID
     const result = await pool.query(
       "SELECT id, book, chapter, verse_number, verse_text, created_at FROM favorite_verses WHERE user_id = $1 ORDER BY book, chapter, verse_number",
       [userId]
@@ -68,19 +63,15 @@ const getFavoriteVerses = async (req, res) => {
 
 // Controller to delete a favorite verse
 const deleteFavoriteVerse = async (req, res) => {
-  // Get user ID from the authenticated request
   const userId = req.user.userId;
-  // Get the verse ID from the request parameters
-  const { id } = req.params; // This 'id' refers to the favorite_verses.id
+  const { id } = req.params; 
 
   try {
-    // Delete the favorite verse, ensuring it belongs to the authenticated user
     const result = await pool.query(
       "DELETE FROM favorite_verses WHERE id = $1 AND user_id = $2 RETURNING id",
       [id, userId]
     );
 
-    // If no rows were deleted, it means the verse was not found or didn't belong to the user
     if (result.rowCount === 0) {
       return res
         .status(404)

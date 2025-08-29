@@ -1,9 +1,9 @@
-const pool = require("../db"); // Database connection pool
+const pool = require("../db");
 
 // Create a new note
 const createNote = async (req, res) => {
   const { book, chapter, verse, content } = req.body;
-  const userId = req.user?.id; // From auth middleware
+  const userId = req.user?.userId;
 
   if (!userId) return res.status(401).json({ message: "Unauthorized" });
   if (!book || !chapter || !verse || !content) {
@@ -25,7 +25,7 @@ const createNote = async (req, res) => {
 
 // Get all notes (optionally filtered by book/chapter/verse)
 const getNotes = async (req, res) => {
-  const userId = req.user?.id;
+  const userId = req.user?.userId;
 
   if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
@@ -60,8 +60,10 @@ const getNotes = async (req, res) => {
 
 // Delete a note
 const deleteNote = async (req, res) => {
-  const userId = req.user?.id;
+  const userId = req.user?.userId;
   const noteId = req.params.id;
+
+  console.log(noteId)
 
   if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
